@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:youtube_downloader/pages/home.dart';
 import 'package:youtube_downloader/services/video_service.dart';
 
@@ -20,22 +19,17 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
         create: (context) => VideoBloc(videoService: VideoService()),
         child: MaterialApp(
-          title: 'Youtube Downloader',
-          theme: ThemeData(
-            primarySwatch: Colors.purple,
-          ),
-          debugShowCheckedModeBanner: false,
-          home: Scaffold(
-              body: Stack(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: Lottie.asset('assets/lotties/background.json',
-                    fit: BoxFit.cover),
+            title: 'Youtube Downloader',
+            theme: ThemeData(
+              primarySwatch: Colors.purple,
+            ),
+            debugShowCheckedModeBanner: false,
+            home: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/bg_1.jpeg'), fit: BoxFit.cover),
               ),
-              const Home()
-            ],
-          )),
-        ));
+              child: const Home(),
+            )));
   }
 }
