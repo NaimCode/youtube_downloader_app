@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube_downloader/bloc/video_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -23,90 +22,62 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                decoration: BoxDecoration(
-                    color: Colors.amber[800],
-                    borderRadius: const BorderRadius.all(Radius.circular(13))),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.link),
-                    const SizedBox(width: 10.0),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _urlController,
-                        validator: (url) {
-                          if (url!.isEmpty) {
-                            return 'Entrer un url valide';
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
-                        decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText:
-                                'https://www.youtube.com/watch?v=5wAna-QQLAc',
-                            hintStyle: TextStyle(
-                                color: Colors.black38,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500)),
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                Text(
+                  'Télécharger à partir de YouTube',
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    fontSize: 30,
+                    fontFamily: GoogleFonts.merienda().fontFamily,
+                    fontWeight: FontWeight.bold,
+                    shadows: <Shadow>[
+                      const Shadow(
+                        offset: Offset(0.0, 1.0),
+                        blurRadius: 1.0,
+                        color: Color.fromARGB(87, 0, 0, 0),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(height: 50.0),
-              ElevatedButton.icon(
-                  onPressed: () {
-                    //
-                    if (_formKey.currentState!.validate()) {
-                      BlocProvider.of<VideoBloc>(context).add(
-                          VideoEventLoadMetaData(url: _urlController.text));
-                    }
-                  },
-                  icon: const Icon(Icons.download),
-                  label: const Text('Download'))
-            ],
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0),
+                    color: const Color(0xFF274f69).withOpacity(.6),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    'Il vous suffit de copier l\'URL de la vidéo pour la télécharger en format MP4 ou MP3.',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: Colors.white,
+                      fontFamily: GoogleFonts.ptSerif().fontFamily,
+                      shadows: <Shadow>[
+                        const Shadow(
+                          offset: Offset(0.0, 1.0),
+                          blurRadius: 1.0,
+                          color: Color.fromARGB(17, 0, 0, 0),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-      ),
-      // bottomSheet: Container(
-      //   height: 100.0,
-      //   padding: const EdgeInsets.all(20),
-      //   child: BlocBuilder(
-      //     bloc: BlocProvider.of<VideoBloc>(context),
-      //     builder: (context, state) {
-      //       if (state is VideoStateLoading) {
-      //         return const Center(
-      //           child: CircularProgressIndicator(),
-      //         );
-      //       }
-      //       if (state is VideoStateLoaded) {
-      //         return Center(
-      //           child: Text(
-      //             state.videoModel.video.title,
-      //             style: const TextStyle(
-      //                 fontSize: 20, fontWeight: FontWeight.w500),
-      //           ),
-      //         );
-      //       }
-      //       return Container();
-      //     },
-      //   ),
-      // )
-    );
+        ));
   }
 }
 
