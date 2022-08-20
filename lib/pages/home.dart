@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube_downloader/bloc/video_bloc.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -42,10 +44,9 @@ class _HomeState extends State<Home> {
                       const SizedBox(width: 10.0),
                       Expanded(
                         child: TextFormField(
+                          controller: _urlController,
                           validator: (url) {
-                            if (url!.isEmpty ||
-                                !url.startsWith(
-                                    "https://www.youtube.com/watch?v=")) {
+                            if (url!.isEmpty) {
                               return 'Entrer un url valide';
                             }
                             return null;
@@ -72,8 +73,8 @@ class _HomeState extends State<Home> {
                     onPressed: () {
                       //
                       if (_formKey.currentState!.validate()) {
-                        //call event bloc
-
+                        BlocProvider.of<VideoBloc>(context).add(
+                            VideoEventLoadMetaData(url: _urlController.text));
                       }
                     },
                     icon: const Icon(Icons.download),
@@ -81,6 +82,32 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
+        ),
+        bottomSheet: Container(
+          height: 100.0,
+          padding: const EdgeInsets.all(20),
+          child: BlocBuilder(
+            bloc: BlocProvider.of<VideoBloc>(context),
+            builder: (context, state) {
+              if (state is VideoStateLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state is VideoStateLoaded) {
+                return Center(
+                  child: Text(
+                    state.videoModel.video.title,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                );
+              }
+              return Container();
+            },
+          ),
         ));
   }
 }
+
+//ReKDJMI8dNQ
