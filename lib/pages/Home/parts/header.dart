@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:youtube_downloader/constants/theme.dart';
 
 class Header extends StatefulWidget {
   const Header({Key? key}) : super(key: key);
@@ -42,8 +43,8 @@ class _HeaderState extends State<Header> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFF274f69).withOpacity(.6),
-                const Color(0xFF274f69).withOpacity(.8),
+                SECONDARY.withOpacity(.6),
+                SECONDARY.withOpacity(.8),
               ]),
           border: Border.all(
             color: Colors.grey,

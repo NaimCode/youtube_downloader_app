@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube_downloader/constants/theme.dart';
+import 'package:youtube_downloader/constants/variables.dart';
+import 'package:youtube_downloader/pages/Video/video_select_download.dart';
+
+import '../../../bloc/video/video_bloc.dart';
 
 class Input extends StatefulWidget {
   const Input({Key? key}) : super(key: key);
@@ -29,8 +35,7 @@ class _InputState extends State<Input> {
             TextFormField(
               controller: _urlController,
               validator: (value) {
-                if (value!.isEmpty ||
-                    !value.startsWith('https://www.youtube.com/watch?v')) {
+                if (value!.isEmpty || !value.startsWith(YOUTUBE_STARTING_URL)) {
                   return 'Entrer un lien youtube valide';
                 }
                 return null;
@@ -43,7 +48,7 @@ class _InputState extends State<Input> {
               decoration: const InputDecoration(
                 filled: true,
                 border: InputBorder.none,
-                hintText: 'https://www.youtube.com/watch?v=ReKDJMI8dNQ',
+                hintText: '${YOUTUBE_STARTING_URL}ReKDJMI8dNQ',
                 hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
               ),
             ),
@@ -55,12 +60,24 @@ class _InputState extends State<Input> {
             ),
             OutlinedButton.icon(
               style: OutlinedButton.styleFrom(
-                primary: const Color(0xffe7b291),
+                primary: PRIMARY,
               ),
               icon: const Icon(Icons.download_rounded),
               label: const Text('Télécharger'),
               onPressed: () {
-                if (_formKey.currentState!.validate()) {}
+                if (_formKey.currentState!.validate()) {
+                  //navigate to new page
+                  BlocProvider.of<VideoBloc>(context).add(
+                    VideoEventLoadMetaData(
+                      url: _urlController.text,
+                    ),
+                  );
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              VideoSelectDownload(url: _urlController.text)));
+                }
               },
             ),
           ],
