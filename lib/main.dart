@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:youtube_downloader/pages/Home/home.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -29,8 +30,20 @@ class _MyAppState extends State<MyApp> {
     yt.close();
   }
 
+  void requestPermission() async {
+    await Permission.storage.request();
+
+    var status = await Permission.storage.status;
+    if (status.isDenied) {
+      // We didn't ask for permission yet or the permission has been denied before but not permanently.
+    }
+    print(status);
+    // You can can also directly ask the permission about its status.
+  }
+
   @override
   Widget build(BuildContext context) {
+    requestPermission();
     return MultiBlocProvider(
         providers: [
           BlocProvider<VideoBloc>(

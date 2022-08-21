@@ -25,8 +25,10 @@ class MuxedItem extends StatelessWidget {
         trailing: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(primary: PRIMARY, elevation: 0),
             onPressed: () {
-              BlocProvider.of<DownloadBloc>(context)
-                  .add(DownloadStart(stream: muxed));
+              BlocProvider.of<DownloadBloc>(context).add(DownloadStart(
+                  ext: isMp3 ? ".mp3" : ".mp4",
+                  stream: muxed,
+                  fileName: context.read<String>()));
             },
             icon: const Icon(Icons.download_outlined),
             label: Text(muxed.size.toString())),

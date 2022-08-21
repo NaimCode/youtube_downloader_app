@@ -9,5 +9,8 @@ abstract class DownloadEvent extends Equatable {
 
 class DownloadStart extends DownloadEvent {
   final StreamInfo stream;
-  const DownloadStart({required this.stream});
+  final String fileName;
+  final String ext;
+  const DownloadStart(
+      {required this.stream, required this.fileName, required this.ext});
 }

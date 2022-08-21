@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -15,18 +17,14 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
     on<DownloadStart>((event, emit) async {
       Directory dir = await getApplicationDocumentsDirectory();
 
-      File file = File(dir.path);
+      File file =
+          File("${dir.path}/${event.fileName.split(" ")[0]}${event.ext}");
       IOSink fileStream = file.openWrite();
 
-      await videoProvider.getStreamDownload(stream: event.stream).listen(
-          (data) {
-        print('---');
-        fileStream.add(data);
-      }, onDone: () {
-        print('Done');
-      }, onError: (error) {
-        print(error);
-      }).asFuture();
+      var result = await videoProvider
+          .getStreamDownload(stream: event.stream)
+          .pipe(fileStream);
+      print(result);
     });
   }
 }
