@@ -19,3 +19,5 @@ class VideoStateLoaded extends VideoState {
   @override
   List<Object> get props => [];
 }
+
+class VideoIsDownloading extends VideoState {}

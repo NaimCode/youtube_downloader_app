@@ -35,7 +35,9 @@ class _InputState extends State<Input> {
             TextFormField(
               controller: _urlController,
               validator: (value) {
-                if (value!.isEmpty || !value.startsWith(YOUTUBE_STARTING_URL)) {
+                if (value!.isEmpty
+                    // || !value.startsWith(YOUTUBE_STARTING_URL)
+                    ) {
                   return 'Entrer un lien youtube valide';
                 }
                 return null;

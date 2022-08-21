@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:youtube_downloader/bloc/download/download_bloc.dart';
 import 'package:youtube_downloader/constants/theme.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -15,13 +17,17 @@ class MuxedItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: ListTile(
+        tileColor: Colors.white,
         style: ListTileStyle.list,
         shape: Border.all(color: Colors.white, width: 1),
-        textColor: Colors.white,
+        textColor: Colors.black,
         title: Text(muxed.qualityLabel),
         trailing: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(primary: PRIMARY, elevation: 0),
-            onPressed: () {},
+            onPressed: () {
+              BlocProvider.of<DownloadBloc>(context)
+                  .add(DownloadStart(stream: muxed));
+            },
             icon: const Icon(Icons.download_outlined),
             label: Text(muxed.size.toString())),
         subtitle: Column(
@@ -35,13 +41,12 @@ class MuxedItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: Text(
-                  muxed.container.toString(),
+                  isMp3 ? "mp3" : muxed.container.toString(),
                   style: GoogleFonts.acme(color: Colors.black, fontSize: 12),
                 )),
           ],
         ),
         leading: CircleAvatar(
-          backgroundColor: Colors.white,
           child: Icon(isMp3 ? Icons.music_note : Icons.play_arrow),
         ),
       ),
