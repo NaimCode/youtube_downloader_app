@@ -15,7 +15,10 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
     on<VideoEventLoadMetaData>((event, emit) async {
       emit(VideoStateLoading());
       Video video = await videoService.getVideoMetaData(url: event.url);
-      emit(VideoStateLoaded(videoModel_: VideoModel(video: video)));
+      StreamManifest manifest =
+          await videoService.getVideoManifest(id: video.id.value);
+      emit(VideoStateLoaded(
+          videoModel_: VideoModel(video: video, manifest: manifest)));
     });
   }
 }

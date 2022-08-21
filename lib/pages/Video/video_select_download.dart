@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:youtube_downloader/constants/theme.dart';
+import 'package:youtube_downloader/pages/Video/parts/muxed_item.dart';
 import 'package:youtube_downloader/widget/loading.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../../bloc/video/video_bloc.dart';
 
@@ -31,27 +34,14 @@ class _VideoSelectDownloadState extends State<VideoSelectDownload> {
           final String thumbnail =
               state.videoModel_.video.thumbnails.highResUrl;
           final String title = state.videoModel_.video.title;
+          final List<MuxedStreamInfo> muxeds = state.videoModel_.manifest.muxed;
           return Scaffold(
               backgroundColor: SECONDARY_LIGHT,
-              // appBar: AppBar(
-              //   backgroundColor: Colors.transparent,
-              //   elevation: 0,
-              //   title: Text(
-              //     'Choisir le format et qualité',
-              //     style: GoogleFonts.merienda(color: Colors.white, fontSize: 18),
-              //   ),
-              // ),
               body: CustomScrollView(
                 slivers: [
                   SliverAppBar(
                     backgroundColor: SECONDARY_LIGHT,
-
                     elevation: 1,
-                    // title: Text(
-                    //   'Choisir le format et qualité',
-                    //   style: GoogleFonts.merienda(
-                    //       color: Colors.white, fontSize: 18),
-                    // ),
                     floating: false,
                     pinned: true,
                     expandedHeight: 190,
@@ -74,14 +64,25 @@ class _VideoSelectDownloadState extends State<VideoSelectDownload> {
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(
+                                  fontFamily: GoogleFonts.merienda().fontFamily,
                                   color: Colors.white,
                                 ),
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        Container(
-                          height: 1000,
-                        )
+                        const Divider(),
+                        // Card(
+                        //   child: Column(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     children:
+                        //     [
+                        ...muxeds
+                            .map((muxed) => MuxedItem(muxed: muxed))
+                            .toList(),
+
+                        //       ]
+                        // ),
+                        // )
                       ],
                     ),
                   ),
