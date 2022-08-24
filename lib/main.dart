@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:hive_flutter/adapters.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:youtube_downloader/pages/Home/home.dart';
@@ -11,7 +13,9 @@ import 'bloc/download/download_bloc.dart';
 import 'bloc/repository/video_provider.dart';
 import 'bloc/video/video_bloc.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('test');
   runApp(const MyApp());
 }
 

@@ -21,10 +21,19 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
           File("${dir.path}/${event.fileName.split(" ")[0]}${event.ext}");
       IOSink fileStream = file.openWrite();
 
-      var result = await videoProvider
-          .getStreamDownload(stream: event.stream)
-          .pipe(fileStream);
-      print(result);
+      Stream<List<int>> stream =
+          videoProvider.getStreamDownload(stream: event.stream);
+      fileStream;
+      stream.listen((data) {
+        print('en cours...');
+        fileStream.add(data);
+      }, onDone: () async {
+        print("Absolute: ${file.absolute.path}");
+        await fileStream.flush();
+        await fileStream.close();
+      }, onError: (error) {
+        print(error);
+      });
     });
   }
 }

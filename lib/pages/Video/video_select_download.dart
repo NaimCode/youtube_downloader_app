@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:youtube_downloader/constants/theme.dart';
 import 'package:youtube_downloader/pages/Video/parts/muxed_item.dart';
+import 'package:youtube_downloader/pages/downloaded/downloaded.dart';
 import 'package:youtube_downloader/widget/loading.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -47,6 +48,17 @@ class _VideoSelectDownloadState extends State<VideoSelectDownload> {
                       elevation: 1,
                       floating: false,
                       pinned: true,
+                      actions: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Downloaded()));
+                            },
+                            icon: const Icon(Icons.download_sharp))
+                      ],
                       expandedHeight: 190,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Image.network(
